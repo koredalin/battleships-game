@@ -11,12 +11,22 @@ class Ship {
 		
 	}
 	
-	public function __get($name) {
-		$name = strval(trim($name));
-		if (!in_array($name, array('size', 'position', 'type', 'name'), true)) {
+	public function __get($propName) {
+		$propName = strval(trim($propName));
+		if (!in_array($propName, array('size', 'position', 'type', 'name'), true)) {
 			return false;
 		}
 		
-		return $this->$name;
+		return $this->$propName;
+	}
+	
+	public function __set($propName, $propValue) {
+		$propName = strval(trim($propName));
+		if (!in_array($propName, array('size', 'position', 'type', 'name'), true)) {
+			return false;
+		}
+		$this->$propName = $propValue;
+		
+		return $propValue;
 	}
 }
