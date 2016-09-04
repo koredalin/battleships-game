@@ -1,12 +1,16 @@
 <?php
-
-session_start();
 include_once 'vendor' . DIRECTORY_SEPARATOR . 'AutoLoader.php';
 
 if (isset($_POST['coord'])) {
 	echo 'Post success: ' . strtoupper(trim($_POST['coord']));
 }
 
+/**
+ * GET Request
+ * curl http://localhost/battleships/shell_index.php?new_game=1
+ * POST Request
+ * curl --data "coord=h4" http://localhost/battleships/shell_index.php
+ */
 $interface = 'shell';
 define ("FILE_NAME", 'shell_serialization/battleships.txt');
 $session = array();
@@ -16,8 +20,7 @@ if (file_exists(FILE_NAME)) {
 $isLoadedGame = isset($session['ships']) && is_array($session['ships']) && count($session['ships']) > 0 && isset($session['BattleField']) && is_object($session['BattleField']);
 
 if (!$isLoadedGame || (isset($_GET['new_game']) && (int) $_GET['new_game'])) {
-	session_destroy();
-	session_start();
+	$session = array();
 	$game = new controller\ShipPositionsController();
 	$game->setShipPositions();
 	$game->loadView();
