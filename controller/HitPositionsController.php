@@ -20,10 +20,11 @@ class HitPositionsController {
 	protected $hitPosition = array('axisX' => '', 'axisY' => 0);
 
 	public function __construct() {
-		if (!isset($_SESSION['BattleField']) || !is_object($_SESSION['BattleField'])) {
+		global $session;
+		if (!isset($session['BattleField']) || !is_object($session['BattleField'])) {
 			throw new Exception('No BattleField Object Loaded in the Session.');
 		}
-		$this->bField = $_SESSION['BattleField'];
+		$this->bField = $session['BattleField'];
 	}
 
 	public function setHitPosition($pos) {
@@ -31,12 +32,8 @@ class HitPositionsController {
 		$axisX = substr($pos, 0, 1);
 		$axisY = (int) substr($pos, 1);
 
-		var_dump(__LINE__);
-		var_dump(ord('A'));
-		var_dump($axisX);
-		var_dump(ord($axisX));
-		if (!$axisX || !ctype_alpha($axisX) || ord($axisX) < ord('A') || ord($axisX) > (ord('A') + constant(self::BF . '::matrixRowsNum') - 1)) { // || $axisY < 1 || $axisY > constant(self::BF . '::matrixColsNum')) {
-			var_dump('False Letter');
+		if (!$axisX || !ctype_alpha($axisX) || ord($axisX) < ord('A') || ord($axisX) > (ord('A') + constant(self::BF . '::matrixRowsNum') - 1) || $axisY < 1 || $axisY > constant(self::BF . '::matrixColsNum')) {
+//			var_dump('False Index - axisX: ' . $axisX . ', axisY: ' . $axisY . '.');
 			return false;
 		}
 		$this->hitPosition = array('axisX' => $axisX, 'axisY' => $axisY);
@@ -47,26 +44,31 @@ class HitPositionsController {
 	public function loadShipsSchema() {
 		$t = new \vendor\ViewRender();
 		$t->printMatrix = $this->bField->getShipMatrix();
-		$t->render('GameTpl.php');
+		global $interface;
+		$tpl = ($interface === 'web') ? 'GameTpl.php' : 'ShellGameTpl.php';
+		$t->render($tpl);
 	}
 
 	public function loadHitsSchema($error = '') {
 		$t = new \vendor\ViewRender();
 		($error) ? $t->error = strval(trim($error)) : false;
 		$t->printMatrix = $this->bField->getHitMatrix();
-		$t->render('GameTpl.php');
+		global $interface;
+		$tpl = ($interface === 'web') ? 'GameTpl.php' : 'ShellGameTpl.php';
+		$t->render($tpl);
 	}
 
-	public function hitPosition() {
-		if (!$this->hitPosition['axisX'] || !$this->hitPosition['axisY']) {
+	public function hitAPosition() {
+		$hitPos = $this->hitPosition;
+		if (!$hitPos['axisX'] || !$hitPos['axisY']) {
 			return false;
 		}
 		$shipMatrix = $this->bField->getShipMatrix();
 		$hitMatrix = $this->bField->getHitMatrix();
-		if ($shipMatrix[$this->hitPosition['axisX']][$this->hitPosition['axisY']] === constant(self::BF . '::shipMatrixDeployed')) {
-			$hitMatrix[$this->hitPosition['axisX']][$this->hitPosition['axisY']] = constant(self::BF . '::hitMatrixHit');
+		if ($shipMatrix[$hitPos['axisX']][$hitPos['axisY']] === constant(self::BF . '::shipMatrixDeployed')) {
+			$hitMatrix[$hitPos['axisX']][$hitPos['axisY']] = constant(self::BF . '::hitMatrixHit');
 		} else {
-			$hitMatrix[$this->hitPosition['axisX']][$this->hitPosition['axisY']] = constant(self::BF . '::hitMatrixMiss');
+			$hitMatrix[$hitPos['axisX']][$hitPos['axisY']] = constant(self::BF . '::hitMatrixMiss');
 		}
 		$this->bField->setHitMatrix($hitMatrix);
 		$this->setBattleFieldToSession();
@@ -75,7 +77,8 @@ class HitPositionsController {
 	}
 
 	public function setBattleFieldToSession() {
-		$_SESSION['BattleField'] = $this->bField;
+		global $session;
+		$session['BattleField'] = $this->bField;
 	}
 
 }

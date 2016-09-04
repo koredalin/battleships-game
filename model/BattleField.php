@@ -47,12 +47,11 @@ class BattleField {
 		return $mat;
 	}
 
-	protected function getRowIndex($noteNum) {
+	public static function getRowIndex($noteNum) {
 		$noteNum = (int) $noteNum;
-		if ($noteNum < 1) {
-			return 'A';
+		if ($noteNum < 1 || $noteNum > self::matrixRowsNum) {
+			throw new Exception('Not existing row index ' . $noteNum . '.');
 		}
-		($noteNum > self::matrixRowsNum) ? $noteNum = self::matrixRowsNum : false;
 		$firstNoteAsciiNum = ord('A');
 		$currNoteAsciiNum = $firstNoteAsciiNum + $noteNum - 1;
 		$currNote = chr($currNoteAsciiNum);

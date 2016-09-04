@@ -2,6 +2,8 @@
 
 namespace controller;
 
+use \model\BattleField as BF;
+
 class ShipPositionsController {
 
 	const maxIterationsPerShipPosSet = 40;
@@ -21,10 +23,10 @@ class ShipPositionsController {
 	protected $ships = array();
 
 	public function __construct() {
-		$this->bField = \model\BattleField::getInstance();
+		$this->bField = BF::getInstance();
 	}
 
-	public function action() {
+	public function setShipPositions() {
 		$this->ships[] = new \model\ships\Destroyer();
 		$this->ships[] = new \model\ships\Destroyer();
 		$this->ships[] = new \model\ships\BattleShip();
@@ -33,19 +35,6 @@ class ShipPositionsController {
 		}
 		$this->setAllShipsToSession();
 		$this->setBattleFieldToSession();
-	}
-
-	protected function getRowIndex($noteNum) {
-		$noteNum = (int) $noteNum;
-		if ($noteNum < 1) {
-			return 'A';
-		}
-		($noteNum > constant(self::BF . '::matrixRowsNum')) ? $noteNum = constant(self::BF . '::matrixRowsNum') : false;
-		$firstNoteAsciiNum = ord('A');
-		$currNoteAsciiNum = $firstNoteAsciiNum + $noteNum;
-		$currNote = chr($currNoteAsciiNum);
-
-		return strtoupper(trim($currNote));
 	}
 
 	protected function getShipRandomPosition($shipSize) {
@@ -57,12 +46,12 @@ class ShipPositionsController {
 		$axisType = rand(1, 2);
 		if ($axisType == 1) {
 			$axisXNum = rand(1, constant(self::BF . '::matrixRowsNum'));
-			$axisX = $this->getRowIndex($axisXNum);
+			$axisX = BF::getRowIndex($axisXNum);
 			$axisY = rand(1, (constant(self::BF . '::matrixColsNum') - $shipSize + 1));
 		} else {
 			$axisY = rand(1, constant(self::BF . '::matrixColsNum'));
 			$axisXNum = rand(1, (constant(self::BF . '::matrixRowsNum') - $shipSize + 1));
-			$axisX = $this->getRowIndex($axisXNum);
+			$axisX = BF::getRowIndex($axisXNum);
 		}
 
 		return array('axisType' => $axisType, 'axisX' => $axisX, 'axisY' => $axisY);
@@ -112,18 +101,21 @@ class ShipPositionsController {
 	}
 
 	public function setAllShipsToSession() {
-		$_SESSION['ships'] = $this->ships;
+		global $session;
+		$session['ships'] = $this->ships;
 	}
 
 	public function setBattleFieldToSession() {
-		$_SESSION['BattleField'] = $this->bField;
+		global $session;
+		$session['BattleField'] = $this->bField;
 	}
 
 	public function loadView() {
 		$t = new \vendor\ViewRender();
 		$t->printMatrix = $this->bField->getHitMatrix();
-//		print_r($t->printMatrix);
-		$t->render('GameTpl.php');
+		global $interface;
+		$tpl = ($interface === 'web') ? 'GameTpl.php' : 'ShellGameTpl.php';
+		$t->render($tpl);
 	}
 
 }
