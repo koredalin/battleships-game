@@ -8,17 +8,13 @@ if (isset($_POST['coord'])) {
 }
 
 $interface = 'shell';
-$fileData = array();
-if (file_exists('shell_serialization/battleships.txt')) {
-	$fileData = file_get_contents('shell_serialization/battleships.txt');
-}
+define ("FILE_NAME", 'shell_serialization/battleships.txt');
 $session = array();
-if (isset($fileData['ships']) && isset($fileData['BattleField'])) {
-	$session['ships'] = unserialize($fileData['ships']);
-	$session['BattleField'] = unserialize($fileData['BattleField']);
+if (file_exists(FILE_NAME)) {
+	$session = unserialize(file_get_contents(FILE_NAME));
 }
 $isLoadedGame = isset($session['ships']) && is_array($session['ships']) && count($session['ships']) > 0 && isset($session['BattleField']) && is_object($session['BattleField']);
-var_dump($isLoadedGame);
+
 if (!$isLoadedGame || (isset($_GET['new_game']) && (int) $_GET['new_game'])) {
 	session_destroy();
 	session_start();
@@ -39,11 +35,7 @@ if (!$isLoadedGame || (isset($_GET['new_game']) && (int) $_GET['new_game'])) {
 	$game = new controller\HitPositionsController();
 	$game->loadHitsSchema('*** Error ***');
 }
-//print_r($session['BattleField']); exit;
-if (isset($session['ships']) && isset($session['BattleField'])) {
-	$fileData['ships'] = serialize($session['ships']);
-	$fileData['BattleField'] = serialize($session['BattleField']);
-	file_put_contents('shell_serialization/battleships.txt', $fileData);
-}
 
-//print_r($game->getShipMatrix());
+if (isset($session['ships']) && is_array($session['ships']) && isset($session['BattleField']) && is_object($session['BattleField'])) {
+	file_put_contents(FILE_NAME, serialize($session));
+}

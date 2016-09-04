@@ -4,7 +4,7 @@ namespace view;
 
 echo "\r\nBattleShips Game\r\n";
 if (isset($this->vars['error'])) {
-	echo $this->error . '\n';
+	echo $this->error . "\r\n";
 }
 
 if (isset($this->vars['printMatrix']) && is_array($this->vars['printMatrix']) && count($this->vars['printMatrix']) > 0) {
