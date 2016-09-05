@@ -2,9 +2,9 @@
 
 include_once 'vendor' . DIRECTORY_SEPARATOR . 'AutoLoader.php';
 
-if (isset($_POST['coord'])) {
+//if (isset($_POST['coord'])) {
 //	echo 'Post success: ' . strtoupper(trim($_POST['coord']));
-}
+//}
 
 /**
  * GET Request
@@ -34,7 +34,6 @@ if (!$isLoadedGame || (isset($_GET['new_game']) && (int) $_GET['new_game']) || !
 	$game->setShipPositions();
 } else if (isset($_POST['coord'])) {
 	$game = new controller\HitPositionsController();
-	$session['gameSuccess'] = $game->areAllShipsHit();
 	$game->addAHit();
 	if (strval(trim($_POST['coord'])) === 'ch3At') {
 		$game->loadShipsSchema();

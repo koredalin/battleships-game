@@ -58,24 +58,12 @@ class HitPositionsController {
 		}
 		$this->bField->setHitMatrix($hitMatrix);
 		$this->setBattleFieldToSession();
+		global $session;
+		$session['gameSuccess'] = $this->areAllShipsHit();
 		if ($this->hitPosition['hit']) {
 			$this->loadHitsSchema('*** Sunk ***');
 		} else {
 			$this->loadHitsSchema('*** Miss ***');
-		}
-
-		return true;
-	}
-
-	public function areAllShipsHit() {
-		$shipMatrix = $this->bField->getShipMatrix();
-		$hitMatrix = $this->bField->getHitMatrix();
-		foreach ($shipMatrix as $axisX => $row) {
-			foreach ($row as $axisY => $value) {
-				if ($value === constant(self::BF . '::shipMatrixDeployed') && $hitMatrix[$axisX][$axisY] !== constant(self::BF . '::hitMatrixHit')) {
-					return false;
-				}
-			}
 		}
 
 		return true;
@@ -114,6 +102,20 @@ class HitPositionsController {
 	private function setBattleFieldToSession() {
 		global $session;
 		$session['BattleField'] = $this->bField;
+	}
+
+	private function areAllShipsHit() {
+		$shipMatrix = $this->bField->getShipMatrix();
+		$hitMatrix = $this->bField->getHitMatrix();
+		foreach ($shipMatrix as $axisX => $row) {
+			foreach ($row as $axisY => $value) {
+				if ($value === constant(self::BF . '::shipMatrixDeployed') && $hitMatrix[$axisX][$axisY] !== constant(self::BF . '::hitMatrixHit')) {
+					return 0;
+				}
+			}
+		}
+
+		return 1;
 	}
 
 }
