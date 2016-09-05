@@ -77,7 +77,7 @@ class ShipPositionsController {
 				$axisY = $randPos['axisY'];
 			}
 
-			if ($shipMat[$axisX][$axisY]) {
+			if ($shipMat[$axisX][$axisY] === constant(self::BF . '::shipMatrixDeployed')) {
 				$freePositionsNum = 0;
 				$freePositions = array();
 			} else {

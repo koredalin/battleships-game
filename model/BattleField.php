@@ -8,8 +8,8 @@ class BattleField {
 
 	const matrixRowsNum = 10;
 	const matrixColsNum = 10;
-	const shipMatrixBlank = 0;
-	const shipMatrixDeployed = 1;
+	const shipMatrixBlank = ' ';
+	const shipMatrixDeployed = 'X';
 	const hitMatrixNoShot = '.';
 	const hitMatrixMiss = '-';
 	const hitMatrixHit = 'X';
@@ -68,13 +68,32 @@ class BattleField {
 	}
 
 	public function setShipMatrix(Array $matrix) {
-		// TODO - Is valid matrix check.
-		return $this->shipMatrix = $matrix;
+		if ($this->isValidMatrix($matrix)) {
+			return $this->shipMatrix = $matrix;
+		}
+
+		throw new \Exception('Not supported Ships Matrix.');
 	}
 
 	public function setHitMatrix(Array $matrix) {
-		// TODO - Is valid matrix check.
-		return $this->hitMatrix = $matrix;
+		if ($this->isValidMatrix($matrix)) {
+			return $this->hitMatrix = $matrix;
+		}
+
+		throw new \Exception('Not supported Hits Matrix.');
+	}
+
+	protected function isValidMatrix(Array $matrix) {
+		if (empty($matrix) || count($matrix) != self::matrixRowsNum) {
+			return false;
+		}
+		foreach ($matrix as $row) {
+			if (count($row) != self::matrixColsNum) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 }
