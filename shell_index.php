@@ -23,8 +23,8 @@ $isLoadedGame = is_array($session) && isset($session['ships']) && is_array($sess
  * Session Duration
  * If the user last change is before more than 20 minutes, the game restarts.
  */
-$sessionDuration = 1 * 60;
-$isValidSession = array_key_exists('lastChange', $session) || ((int) $session['lastChange'] < (int) (strtotime(date('Y-m-d H:i:s')) - $sessionDuration));
+$sessionDuration = 20 * 60;
+$isValidSession = array_key_exists('lastChange', $session) && ((int) $session['lastChange'] >= (int) (strtotime(date('Y-m-d H:i:s')) - $sessionDuration));
 
 if (!$isLoadedGame || (isset($_GET['new_game']) && (int) $_GET['new_game']) || !$isValidSession) {
 	$session = array();
@@ -32,7 +32,6 @@ if (!$isLoadedGame || (isset($_GET['new_game']) && (int) $_GET['new_game']) || !
 	$session['hitsCount'] = 0;
 	$game = new controller\ShipPositionsController();
 	$game->setShipPositions();
-	$game->loadView();
 } else if (isset($_POST['coord'])) {
 	$game = new controller\HitPositionsController();
 	$session['gameSuccess'] = $game->areAllShipsHit();

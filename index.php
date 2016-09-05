@@ -18,7 +18,6 @@ if (!$isLoadedGame || (isset($_GET['new_game']) && (int) $_GET['new_game'])) {
 	$session['hitsCount'] = 0;
 	$game = new controller\ShipPositionsController();
 	$game->setShipPositions();
-	$game->loadView();
 } else if (isset($_POST['coord'])) {
 	$game = new controller\HitPositionsController();
 	$session['gameSuccess'] = $game->areAllShipsHit();

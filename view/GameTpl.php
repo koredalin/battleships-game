@@ -32,6 +32,7 @@ namespace view;
 			<?php
 			if (isset($this->vars['status'])) {
 				echo '<p class="game_row">' . $this->status . '</p>';
+				echo "\r\n			";
 			}
 
 			if (isset($this->vars['printMatrix']) && is_array($this->vars['printMatrix']) && count($this->vars['printMatrix']) > 0) {
@@ -40,12 +41,14 @@ namespace view;
 					echo (!$jj) ? '  ' : $jj . ' ';
 				}
 				echo '</div>';
+				echo "\r\n			";
 				foreach ($this->printMatrix as $rowKey => $row) {
 					echo '<div class="game_row print_spaces">' . $rowKey . ' ';
 					foreach ($row as $colKey => $col) {
 						echo $col . ' ';
 					}
 					echo '</div>';
+					echo "\r\n";
 				}
 			}
 			?>

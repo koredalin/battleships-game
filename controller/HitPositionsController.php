@@ -41,26 +41,6 @@ class HitPositionsController {
 		return true;
 	}
 
-	public function loadShipsSchema() {
-		$t = new \vendor\ViewRender();
-		$t->printMatrix = $this->bField->getShipMatrix();
-		global $interface;
-		$tpl = ($interface === 'web') ? 'GameTpl.php' : 'ShellGameTpl.php';
-		$t->render($tpl);
-	}
-
-	public function loadHitsSchema($status = '') {
-		$t = new \vendor\ViewRender();
-		($status) ? $t->status = strval(trim($status)) : false;
-		$t->printMatrix = $this->bField->getHitMatrix();
-		global $interface;
-		$tpl = ($interface === 'web') ? 'GameTpl.php' : 'ShellGameTpl.php';
-		global $session;
-		$t->gameSuccess = (isset($session['gameSuccess']) && $session['gameSuccess']) ? $session['gameSuccess'] : 0;
-		$t->hitsCount = (isset($session['hitsCount']) && $session['hitsCount']) ? $session['hitsCount'] : 0;
-		$t->render($tpl);
-	}
-
 	public function hitAPosition() {
 		$hitPos = $this->hitPosition;
 		if (!$hitPos['axisX'] || !$hitPos['axisY']) {
@@ -87,21 +67,6 @@ class HitPositionsController {
 		return true;
 	}
 
-	public function addAHit() {
-		global $session;
-		if (!isset($session['hitsCount']) || !$session['hitsCount']) {
-			$session['hitsCount'] = 0;
-		}
-		if (!isset($session['gameSuccess']) || !$session['gameSuccess']) {
-			$session['hitsCount'] ++;
-		}
-	}
-
-	public function setBattleFieldToSession() {
-		global $session;
-		$session['BattleField'] = $this->bField;
-	}
-
 	public function areAllShipsHit() {
 		$shipMatrix = $this->bField->getShipMatrix();
 		$hitMatrix = $this->bField->getHitMatrix();
@@ -114,6 +79,41 @@ class HitPositionsController {
 		}
 
 		return true;
+	}
+
+	public function addAHit() {
+		global $session;
+		if (!isset($session['hitsCount']) || !$session['hitsCount']) {
+			$session['hitsCount'] = 0;
+		}
+		if (!isset($session['gameSuccess']) || !$session['gameSuccess']) {
+			$session['hitsCount'] ++;
+		}
+	}
+
+	public function loadShipsSchema() {
+		$t = new \vendor\ViewRender();
+		$t->printMatrix = $this->bField->getShipMatrix();
+		global $interface;
+		$tpl = ($interface === 'web') ? 'GameTpl.php' : 'ShellGameTpl.php';
+		$t->render($tpl);
+	}
+
+	public function loadHitsSchema($status = '') {
+		$t = new \vendor\ViewRender();
+		($status) ? $t->status = strval(trim($status)) : false;
+		$t->printMatrix = $this->bField->getHitMatrix();
+		global $interface;
+		$tpl = ($interface === 'web') ? 'GameTpl.php' : 'ShellGameTpl.php';
+		global $session;
+		$t->gameSuccess = (isset($session['gameSuccess']) && $session['gameSuccess']) ? $session['gameSuccess'] : 0;
+		$t->hitsCount = (isset($session['hitsCount']) && $session['hitsCount']) ? $session['hitsCount'] : 0;
+		$t->render($tpl);
+	}
+
+	private function setBattleFieldToSession() {
+		global $session;
+		$session['BattleField'] = $this->bField;
 	}
 
 }

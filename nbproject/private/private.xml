@@ -9,6 +9,7 @@
             <file>file:/C:/xampp/htdocs/battleships/controller/ShipPositionsController.php</file>
             <file>file:/C:/xampp/htdocs/battleships/shell_index.php</file>
             <file>file:/C:/xampp/htdocs/battleships/model/BattleField.php</file>
+            <file>file:/C:/xampp/htdocs/battleships/view/GameTpl.php</file>
         </group>
     </open-files>
 </project-private>
