@@ -99,15 +99,15 @@ class BattleField {
 
 	private function isValidMatrix(Array $matrix) {
 		if (empty($matrix) || count($matrix) != self::MATRIX_ROWS_NUM) {
-			return false;
+			return 0;
 		}
 		foreach ($matrix as $row) {
 			if (count($row) != self::MATRIX_COLS_NUM) {
-				return false;
+				return 0;
 			}
 		}
 
-		return true;
+		return 1;
 	}
 
 }

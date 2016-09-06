@@ -2,7 +2,7 @@
 
 namespace view;
 
-echo "\r\nBattleShips Game\r\n";
+echo "\r\n\r\nBattleShips Game\r\n";
 if (isset($this->vars['status'])) {
 	echo $this->status . "\r\n";
 }
@@ -22,7 +22,14 @@ if (isset($this->vars['printMatrix']) && is_array($this->vars['printMatrix']) &&
 	}
 //	print_r($this->vars['printMatrix']);
 }
+echo "\r\n";
 
 if (isset($this->vars['gameSuccess']) && $this->vars['gameSuccess'] && isset($this->vars['hitsCount']) && $this->vars['hitsCount']) {
-	echo "\r\nWell Done! You completed the game in " . $this->vars['hitsCount'] . " shots.";
+	echo "Well Done! You completed the game in " . $this->vars['hitsCount'] . " shots.\r\n";
 }
+
+echo "Hit a position:\r\n";
+echo "curl --data \"coord=h4\" http://localhost/battleships/shell_index.php\r\n";
+echo "\r\n";
+echo "Start a new game:\r\n";
+echo "curl http://localhost/battleships/shell_index.php?new_game=1\r\n";
