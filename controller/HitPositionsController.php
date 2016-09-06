@@ -1,7 +1,15 @@
 <?php
+/**
+ * @game BattleShips
+ */
 
 namespace controller;
 
+/**
+ * HitPositionsController
+ *
+ * @author Hristo Hristov
+ */
 class HitPositionsController implements HitPositionsInterface {
 
 	/**
@@ -26,9 +34,7 @@ class HitPositionsController implements HitPositionsInterface {
 		$pos = strtoupper(trim($pos));
 		$axisX = substr($pos, 0, 1);
 		$axisY = (int) substr($pos, 1);
-
-		if (!$axisX || !ctype_alpha($axisX) || ord($axisX) < ord('A') || ord($axisX) > (ord('A') + constant(self::BF . '::MATRIX_ROWS_NUM') - 1) || $axisY < 1 || $axisY > constant(self::BF . '::MATRIX_COLS_NUM')) {
-//			var_dump('False Index - axisX: ' . $axisX . ', axisY: ' . $axisY . '.');
+		if (!$this->bField->isValidHitPosition($axisX, $axisY)) {
 			return false;
 		}
 		$this->hitPosition = array('axisX' => $axisX, 'axisY' => $axisY);

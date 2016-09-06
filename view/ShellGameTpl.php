@@ -1,4 +1,7 @@
 <?php
+/**
+ * @game BattleShips
+ */
 
 namespace view;
 

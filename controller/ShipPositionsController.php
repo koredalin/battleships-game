@@ -1,7 +1,15 @@
 <?php
+/**
+ * @game BattleShips
+ */
 
 namespace controller;
 
+/**
+ * ShipPositionsController
+ *
+ * @author Hristo Hristov
+ */
 use \model\BattleField as BF;
 
 class ShipPositionsController implements ShipPositionsInterface {
@@ -120,9 +128,3 @@ class ShipPositionsController implements ShipPositionsInterface {
 	}
 
 }
-
-/*
-	if ($shipSize > constant(self::BF . '::MATRIX_ROWS_NUM')) {
-		$axisNum = rand(1, constant(self::BF . '::MATRIX_ROWS_NUM'));
-	}
-/**/

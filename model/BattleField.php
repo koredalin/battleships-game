@@ -1,7 +1,15 @@
 <?php
+/**
+ * @game BattleShips
+ */
 
 namespace model;
 
+/**
+ * BattleField
+ *
+ * @author Hristo Hristov
+ */
 class BattleField implements BattleFieldInterface {
 
 	private static $instance = NULL;
@@ -20,7 +28,7 @@ class BattleField implements BattleFieldInterface {
 	/**
 	 * The BattleField is only one.
 	 * So we can make only 1 instance of it.
-	 * Pattern Singleton
+	 * Pattern Singleton.
 	 */
 	public static function getInstance() {
 		if (!isset(self::$instance)) {
@@ -45,6 +53,17 @@ class BattleField implements BattleFieldInterface {
 		$currNote = chr($currNoteAsciiNum);
 
 		return strtoupper(trim($currNote));
+	}
+
+	public function isValidHitPosition($axisX, $axisY) {
+		$axisX = substr(strtoupper(trim($axisX)), 0, 1);
+		$axisY = (int) $axisY;
+
+		if (!$axisX || !ctype_alpha($axisX) || ord($axisX) < ord('A') || ord($axisX) > (ord('A') + self::MATRIX_ROWS_NUM - 1) || $axisY < 1 || $axisY > self::MATRIX_COLS_NUM) {
+			return 0;
+		}
+		
+		return 1;
 	}
 
 	public function areAllShipsHit() {

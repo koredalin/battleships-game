@@ -1,4 +1,7 @@
 <?php
+/**
+ * @game BattleShips
+ */
 
 include_once 'vendor' . DIRECTORY_SEPARATOR . 'AutoLoader.php';
 
