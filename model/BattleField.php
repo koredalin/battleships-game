@@ -7,8 +7,9 @@ namespace model;
 
 /**
  * @model BattleField
- *
  * @author Hristo Hristov
+ *
+ * OOP Principle. All the validations are in the Model.
  */
 class BattleField implements BattleFieldInterface {
 
@@ -43,10 +44,17 @@ class BattleField implements BattleFieldInterface {
 		$this->hitMatrix = $this->emptyMatrix(self::HIT_MATRIX_NO_SHOT);
 	}
 
+	/**
+	 * Validates the row index <1-10>.
+	 * Returns row index <A-J>.
+	 * @param (int) $noteNum
+	 * @return (string) 1 character.
+	 * @throws Exception "Not existing row index $noteNum."
+	 */
 	public static function getRowIndex($noteNum) {
 		$noteNum = (int) $noteNum;
 		if ($noteNum < 1 || $noteNum > self::MATRIX_ROWS_NUM) {
-			throw new Exception('Not existing row index ' . $noteNum . '.');
+			throw new Exception('Not existing row index: ' . $noteNum . '.');
 		}
 		$firstNoteAsciiNum = ord('A');
 		$currNoteAsciiNum = $firstNoteAsciiNum + $noteNum - 1;
@@ -55,6 +63,11 @@ class BattleField implements BattleFieldInterface {
 		return strtoupper(trim($currNote));
 	}
 
+	/**
+	 * Validates the hit position by coordinate [$axisX]<A-J>, [$axisY]<1-10>.
+	 * @param (string) $axisX (1 char), (int) $axisY
+	 * @return (int) 0 or 1.
+	 */
 	public function isValidHitPosition($axisX, $axisY) {
 		$axisX = substr(strtoupper(trim($axisX)), 0, 1);
 		$axisY = (int) $axisY;
@@ -66,6 +79,10 @@ class BattleField implements BattleFieldInterface {
 		return 1;
 	}
 
+	/**
+	 * Checks if all the ships are sunk.
+	 * @return (int) 0 or 1.
+	 */
 	public function areAllShipsHit() {
 		$shipMatrix = $this->shipMatrix;
 		$hitMatrix = $this->hitMatrix;
@@ -104,9 +121,14 @@ class BattleField implements BattleFieldInterface {
 		throw new \Exception('Not supported Hits Matrix.');
 	}
 
+	/**
+	 * Creates an array. Fills it with default parameter.
+	 * @param type $defSymbol.
+	 * @return array "empty matrix".
+	 */
 	private function emptyMatrix($defSymbol) {
 		$mat = array();
-		$lastNote = $this->getRowIndex(\model\BattleField::MATRIX_ROWS_NUM);
+		$lastNote = $this->getRowIndex(self::MATRIX_ROWS_NUM);
 		for ($ii = 'A'; $ii <= $lastNote; $ii++) {
 			for ($jj = 1; $jj <= self::MATRIX_COLS_NUM; $jj++) {
 				$mat[$ii][$jj] = $defSymbol;
@@ -116,6 +138,10 @@ class BattleField implements BattleFieldInterface {
 		return $mat;
 	}
 
+	/**
+	 * Validates the current BattleField Ships or Hits Matrix.
+	 * Checks for Rows and Columns number.
+	 */
 	private function isValidMatrix(Array $matrix) {
 		if (empty($matrix) || count($matrix) != self::MATRIX_ROWS_NUM) {
 			return 0;
