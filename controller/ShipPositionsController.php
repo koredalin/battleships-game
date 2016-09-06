@@ -6,7 +6,7 @@
 namespace controller;
 
 /**
- * ShipPositionsController
+ * @controller ShipPositionsController
  *
  * @author Hristo Hristov
  */

@@ -6,7 +6,7 @@
 namespace controller;
 
 /**
- * HitPositionsController
+ * @controller HitPositionsController
  *
  * @author Hristo Hristov
  */

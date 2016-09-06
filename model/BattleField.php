@@ -6,7 +6,7 @@
 namespace model;
 
 /**
- * BattleField
+ * @model BattleField
  *
  * @author Hristo Hristov
  */

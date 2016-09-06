@@ -1,6 +1,7 @@
 <?php
 /**
  * @game BattleShips
+ * @author Hristo Hristov
  */
 
 include_once 'vendor' . DIRECTORY_SEPARATOR . 'AutoLoader.php';

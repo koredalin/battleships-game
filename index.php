@@ -1,6 +1,7 @@
 <?php
 /**
  * @game BattleShips
+ * @author Hristo Hristov
  */
 
 session_start();
@@ -40,5 +41,3 @@ if (!$isLoadedGame || (isset($_GET['new_game']) && (int) $_GET['new_game'])) {
 if (isset($session) && is_array($session) && count($session) > 0) {
 	$_SESSION['session'] = serialize($session);
 }
-
-//print_r($game->getShipMatrix());
