@@ -14,13 +14,13 @@ class ShipPositionsController {
 	 */
 	const BF = '\model\BattleField';
 
-	protected $bField = null;
+	private $bField = null;
 
 	/**
 	 * @class "\model\Ship" and inheritors
 	 * array of objects
 	 */
-	protected $ships = array();
+	private $ships = array();
 
 	public function __construct() {
 		$this->bField = BF::getInstance();

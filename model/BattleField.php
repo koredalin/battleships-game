@@ -4,7 +4,7 @@ namespace model;
 
 class BattleField {
 
-	protected static $instance = NULL;
+	private static $instance = NULL;
 
 	const MATRIX_ROWS_NUM = 10;
 	const MATRIX_COLS_NUM = 10;
@@ -14,13 +14,8 @@ class BattleField {
 	const HIT_MATRIX_MISS = '-';
 	const HIT_MATRIX_HIT = 'X';
 
-	protected $shipMatrix = array();
-	protected $hitMatrix = array();
-
-	protected function __construct() {
-		$this->shipMatrix = $this->emptyMatrix(self::SHIP_MATRIX_BLANK);
-		$this->hitMatrix = $this->emptyMatrix(self::HIT_MATRIX_NO_SHOT);
-	}
+	private $shipMatrix = array();
+	private $hitMatrix = array();
 
 	/**
 	 * The BattleField is only one.
@@ -35,16 +30,9 @@ class BattleField {
 		return self::$instance;
 	}
 
-	protected function emptyMatrix($defSymbol) {
-		$mat = array();
-		$lastNote = $this->getRowIndex(\model\BattleField::MATRIX_ROWS_NUM);
-		for ($ii = 'A'; $ii <= $lastNote; $ii++) {
-			for ($jj = 1; $jj <= self::MATRIX_COLS_NUM; $jj++) {
-				$mat[$ii][$jj] = $defSymbol;
-			}
-		}
-
-		return $mat;
+	private function __construct() {
+		$this->shipMatrix = $this->emptyMatrix(self::SHIP_MATRIX_BLANK);
+		$this->hitMatrix = $this->emptyMatrix(self::HIT_MATRIX_NO_SHOT);
 	}
 
 	public static function getRowIndex($noteNum) {
@@ -57,6 +45,20 @@ class BattleField {
 		$currNote = chr($currNoteAsciiNum);
 
 		return strtoupper(trim($currNote));
+	}
+
+	public function areAllShipsHit() {
+		$shipMatrix = $this->shipMatrix;
+		$hitMatrix = $this->hitMatrix;
+		foreach ($shipMatrix as $axisX => $row) {
+			foreach ($row as $axisY => $value) {
+				if ($value === self::SHIP_MATRIX_DEPLOYED && $hitMatrix[$axisX][$axisY] !== self::HIT_MATRIX_HIT) {
+					return 0;
+				}
+			}
+		}
+
+		return 1;
 	}
 
 	public function getShipMatrix() {
@@ -83,7 +85,19 @@ class BattleField {
 		throw new \Exception('Not supported Hits Matrix.');
 	}
 
-	protected function isValidMatrix(Array $matrix) {
+	private function emptyMatrix($defSymbol) {
+		$mat = array();
+		$lastNote = $this->getRowIndex(\model\BattleField::MATRIX_ROWS_NUM);
+		for ($ii = 'A'; $ii <= $lastNote; $ii++) {
+			for ($jj = 1; $jj <= self::MATRIX_COLS_NUM; $jj++) {
+				$mat[$ii][$jj] = $defSymbol;
+			}
+		}
+
+		return $mat;
+	}
+
+	private function isValidMatrix(Array $matrix) {
 		if (empty($matrix) || count($matrix) != self::MATRIX_ROWS_NUM) {
 			return false;
 		}

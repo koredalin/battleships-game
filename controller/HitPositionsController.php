@@ -10,14 +10,14 @@ class HitPositionsController {
 	 */
 	const BF = '\model\BattleField';
 
-	protected $bField = null;
+	private $bField = null;
 
 	/**
 	 * @class "\model\Ship" and inheritors
 	 * array of objects
 	 */
-	protected $ships = array();
-	protected $hitPosition = array('axisX' => '', 'axisY' => 0, 'hit' => 0);
+	private $ships = array();
+	private $hitPosition = array('axisX' => '', 'axisY' => 0, 'hit' => 0);
 
 	public function __construct() {
 		global $session;
@@ -59,7 +59,7 @@ class HitPositionsController {
 		$this->bField->setHitMatrix($hitMatrix);
 		$this->setBattleFieldToSession();
 		global $session;
-		$session['gameSuccess'] = $this->areAllShipsHit();
+		$session['gameSuccess'] = $this->bField->areAllShipsHit();
 		if ($this->hitPosition['hit']) {
 			$this->loadHitsSchema('*** Sunk ***');
 		} else {
@@ -102,20 +102,6 @@ class HitPositionsController {
 	private function setBattleFieldToSession() {
 		global $session;
 		$session['BattleField'] = $this->bField;
-	}
-
-	private function areAllShipsHit() {
-		$shipMatrix = $this->bField->getShipMatrix();
-		$hitMatrix = $this->bField->getHitMatrix();
-		foreach ($shipMatrix as $axisX => $row) {
-			foreach ($row as $axisY => $value) {
-				if ($value === constant(self::BF . '::SHIP_MATRIX_DEPLOYED') && $hitMatrix[$axisX][$axisY] !== constant(self::BF . '::HIT_MATRIX_HIT')) {
-					return 0;
-				}
-			}
-		}
-
-		return 1;
 	}
 
 }
