@@ -6,20 +6,20 @@ class BattleField {
 
 	protected static $instance = NULL;
 
-	const matrixRowsNum = 10;
-	const matrixColsNum = 10;
-	const shipMatrixBlank = ' ';
-	const shipMatrixDeployed = 'X';
-	const hitMatrixNoShot = '.';
-	const hitMatrixMiss = '-';
-	const hitMatrixHit = 'X';
+	const MATRIX_ROWS_NUM = 10;
+	const MATRIX_COLS_NUM = 10;
+	const SHIP_MATRIX_BLANK = ' ';
+	const SHIP_MATRIX_DEPLOYED = 'X';
+	const HIT_MATRIX_NO_SHOT = '.';
+	const HIT_MATRIX_MISS = '-';
+	const HIT_MATRIX_HIT = 'X';
 
 	protected $shipMatrix = array();
 	protected $hitMatrix = array();
 
 	protected function __construct() {
-		$this->shipMatrix = $this->emptyMatrix(self::shipMatrixBlank);
-		$this->hitMatrix = $this->emptyMatrix(self::hitMatrixNoShot);
+		$this->shipMatrix = $this->emptyMatrix(self::SHIP_MATRIX_BLANK);
+		$this->hitMatrix = $this->emptyMatrix(self::HIT_MATRIX_NO_SHOT);
 	}
 
 	/**
@@ -37,9 +37,9 @@ class BattleField {
 
 	protected function emptyMatrix($defSymbol) {
 		$mat = array();
-		$lastNote = $this->getRowIndex(\model\BattleField::matrixRowsNum);
+		$lastNote = $this->getRowIndex(\model\BattleField::MATRIX_ROWS_NUM);
 		for ($ii = 'A'; $ii <= $lastNote; $ii++) {
-			for ($jj = 1; $jj <= self::matrixColsNum; $jj++) {
+			for ($jj = 1; $jj <= self::MATRIX_COLS_NUM; $jj++) {
 				$mat[$ii][$jj] = $defSymbol;
 			}
 		}
@@ -49,7 +49,7 @@ class BattleField {
 
 	public static function getRowIndex($noteNum) {
 		$noteNum = (int) $noteNum;
-		if ($noteNum < 1 || $noteNum > self::matrixRowsNum) {
+		if ($noteNum < 1 || $noteNum > self::MATRIX_ROWS_NUM) {
 			throw new Exception('Not existing row index ' . $noteNum . '.');
 		}
 		$firstNoteAsciiNum = ord('A');
@@ -84,11 +84,11 @@ class BattleField {
 	}
 
 	protected function isValidMatrix(Array $matrix) {
-		if (empty($matrix) || count($matrix) != self::matrixRowsNum) {
+		if (empty($matrix) || count($matrix) != self::MATRIX_ROWS_NUM) {
 			return false;
 		}
 		foreach ($matrix as $row) {
-			if (count($row) != self::matrixColsNum) {
+			if (count($row) != self::MATRIX_COLS_NUM) {
 				return false;
 			}
 		}

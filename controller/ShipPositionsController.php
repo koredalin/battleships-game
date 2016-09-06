@@ -6,7 +6,7 @@ use \model\BattleField as BF;
 
 class ShipPositionsController {
 
-	const maxIterationsPerShipPosSet = 40;
+	const MAX_ITERATIONS_PER_SHIP_POS_SET = 40;
 
 	/**
 	 * @class "\model\BattleField"
@@ -40,14 +40,14 @@ class ShipPositionsController {
 
 	private function setShipPosition($shipIndex, $shipSize) {
 		$shipSize = (int) $shipSize;
-		if ($shipSize <= 0 || $shipSize > constant(self::BF . '::matrixRowsNum') || $shipSize > constant(self::BF . '::matrixColsNum')) {
+		if ($shipSize <= 0 || $shipSize > constant(self::BF . '::MATRIX_ROWS_NUM') || $shipSize > constant(self::BF . '::MATRIX_COLS_NUM')) {
 			return false;
 		}
 		$shipMat = $this->bField->getShipMatrix();
 		$freePositionsNum = 0;
 		$freePositions = array();
 		$loops = 0;
-		while ($freePositionsNum < $shipSize && $loops <= self::maxIterationsPerShipPosSet) {
+		while ($freePositionsNum < $shipSize && $loops <= self::MAX_ITERATIONS_PER_SHIP_POS_SET) {
 			if (!$freePositionsNum) {
 				$randPos = $this->getShipRandomPosition($shipSize);
 				if (!is_array($randPos) || empty($randPos)) {
@@ -58,7 +58,7 @@ class ShipPositionsController {
 				$axisY = $randPos['axisY'];
 			}
 
-			if ($shipMat[$axisX][$axisY] === constant(self::BF . '::shipMatrixDeployed')) {
+			if ($shipMat[$axisX][$axisY] === constant(self::BF . '::SHIP_MATRIX_DEPLOYED')) {
 				$freePositionsNum = 0;
 				$freePositions = array();
 			} else {
@@ -72,7 +72,7 @@ class ShipPositionsController {
 		if ($shipSize == count($freePositions)) {
 			$this->ships[$shipIndex]->position = $freePositions;
 			foreach ($freePositions as $pos) {
-				$shipMat[$pos['axisX']][$pos['axisY']] = constant(self::BF . '::shipMatrixDeployed');
+				$shipMat[$pos['axisX']][$pos['axisY']] = constant(self::BF . '::SHIP_MATRIX_DEPLOYED');
 			}
 		} else {
 			throw new \Exception('Ship with size ' . $shipSize . ' is not positioned.');
@@ -89,12 +89,12 @@ class ShipPositionsController {
 		// Random 2 - Vertical Axis
 		$axisType = rand(1, 2);
 		if ($axisType == 1) {
-			$axisXNum = rand(1, constant(self::BF . '::matrixRowsNum'));
+			$axisXNum = rand(1, constant(self::BF . '::MATRIX_ROWS_NUM'));
 			$axisX = BF::getRowIndex($axisXNum);
-			$axisY = rand(1, (constant(self::BF . '::matrixColsNum') - $shipSize + 1));
+			$axisY = rand(1, (constant(self::BF . '::MATRIX_COLS_NUM') - $shipSize + 1));
 		} else {
-			$axisY = rand(1, constant(self::BF . '::matrixColsNum'));
-			$axisXNum = rand(1, (constant(self::BF . '::matrixRowsNum') - $shipSize + 1));
+			$axisY = rand(1, constant(self::BF . '::MATRIX_COLS_NUM'));
+			$axisXNum = rand(1, (constant(self::BF . '::MATRIX_ROWS_NUM') - $shipSize + 1));
 			$axisX = BF::getRowIndex($axisXNum);
 		}
 
@@ -122,7 +122,7 @@ class ShipPositionsController {
 }
 
 /*
-	if ($shipSize > constant(self::BF . '::matrixRowsNum')) {
-		$axisNum = rand(1, constant(self::BF . '::matrixRowsNum'));
+	if ($shipSize > constant(self::BF . '::MATRIX_ROWS_NUM')) {
+		$axisNum = rand(1, constant(self::BF . '::MATRIX_ROWS_NUM'));
 	}
 /**/

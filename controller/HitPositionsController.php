@@ -32,7 +32,7 @@ class HitPositionsController {
 		$axisX = substr($pos, 0, 1);
 		$axisY = (int) substr($pos, 1);
 
-		if (!$axisX || !ctype_alpha($axisX) || ord($axisX) < ord('A') || ord($axisX) > (ord('A') + constant(self::BF . '::matrixRowsNum') - 1) || $axisY < 1 || $axisY > constant(self::BF . '::matrixColsNum')) {
+		if (!$axisX || !ctype_alpha($axisX) || ord($axisX) < ord('A') || ord($axisX) > (ord('A') + constant(self::BF . '::MATRIX_ROWS_NUM') - 1) || $axisY < 1 || $axisY > constant(self::BF . '::MATRIX_COLS_NUM')) {
 //			var_dump('False Index - axisX: ' . $axisX . ', axisY: ' . $axisY . '.');
 			return false;
 		}
@@ -49,11 +49,11 @@ class HitPositionsController {
 		}
 		$shipMatrix = $this->bField->getShipMatrix();
 		$hitMatrix = $this->bField->getHitMatrix();
-		if ($shipMatrix[$hitPos['axisX']][$hitPos['axisY']] === constant(self::BF . '::shipMatrixDeployed')) {
-			$hitMatrix[$hitPos['axisX']][$hitPos['axisY']] = constant(self::BF . '::hitMatrixHit');
+		if ($shipMatrix[$hitPos['axisX']][$hitPos['axisY']] === constant(self::BF . '::SHIP_MATRIX_DEPLOYED')) {
+			$hitMatrix[$hitPos['axisX']][$hitPos['axisY']] = constant(self::BF . '::HIT_MATRIX_HIT');
 			$this->hitPosition['hit'] = 1;
 		} else {
-			$hitMatrix[$hitPos['axisX']][$hitPos['axisY']] = constant(self::BF . '::hitMatrixMiss');
+			$hitMatrix[$hitPos['axisX']][$hitPos['axisY']] = constant(self::BF . '::HIT_MATRIX_MISS');
 			$this->hitPosition['hit'] = 0;
 		}
 		$this->bField->setHitMatrix($hitMatrix);
@@ -109,7 +109,7 @@ class HitPositionsController {
 		$hitMatrix = $this->bField->getHitMatrix();
 		foreach ($shipMatrix as $axisX => $row) {
 			foreach ($row as $axisY => $value) {
-				if ($value === constant(self::BF . '::shipMatrixDeployed') && $hitMatrix[$axisX][$axisY] !== constant(self::BF . '::hitMatrixHit')) {
+				if ($value === constant(self::BF . '::SHIP_MATRIX_DEPLOYED') && $hitMatrix[$axisX][$axisY] !== constant(self::BF . '::HIT_MATRIX_HIT')) {
 					return 0;
 				}
 			}
