@@ -4,7 +4,7 @@ namespace controller;
 
 use \model\BattleField as BF;
 
-class ShipPositionsController {
+class ShipPositionsController implements ShipPositionsInterface {
 
 	const MAX_ITERATIONS_PER_SHIP_POS_SET = 40;
 

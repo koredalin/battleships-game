@@ -2,7 +2,7 @@
 
 namespace model;
 
-class BattleField {
+class BattleField implements BattleFieldInterface {
 
 	private static $instance = NULL;
 

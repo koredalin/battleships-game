@@ -20,7 +20,6 @@ if (isset($this->vars['printMatrix']) && is_array($this->vars['printMatrix']) &&
 		}
 		echo "\r\n";
 	}
-//	print_r($this->vars['printMatrix']);
 }
 echo "\r\n";
 

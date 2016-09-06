@@ -2,7 +2,7 @@
 
 namespace controller;
 
-class HitPositionsController {
+class HitPositionsController implements HitPositionsInterface {
 
 	/**
 	 * @class "\model\BattleField"
@@ -12,11 +12,6 @@ class HitPositionsController {
 
 	private $bField = null;
 
-	/**
-	 * @class "\model\Ship" and inheritors
-	 * array of objects
-	 */
-	private $ships = array();
 	private $hitPosition = array('axisX' => '', 'axisY' => 0, 'hit' => 0);
 
 	public function __construct() {
