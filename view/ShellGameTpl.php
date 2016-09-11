@@ -12,7 +12,7 @@ if (isset($this->vars['status'])) {
 
 if (isset($this->vars['printMatrix']) && is_array($this->vars['printMatrix']) && count($this->vars['printMatrix']) > 0) {
 	for ($jj = 0; $jj <= 10; $jj++) {
-		echo $jj . ' ';
+		echo ($jj == 0) ? '  ' : $jj . ' ';
 	}
 	echo "\r\n";
 
@@ -32,6 +32,9 @@ if (isset($this->vars['gameSuccess']) && $this->vars['gameSuccess'] && isset($th
 
 echo "Hit a position:\r\n";
 echo "curl --data \"coord=h4\" http://localhost/battleships/shell_index.php\r\n";
+echo "\r\n";
+echo "See all ships positions:\r\n";
+echo "curl --data \"coord=ch3At\" http://localhost/battleships/shell_index.php\r\n";
 echo "\r\n";
 echo "Start a new game:\r\n";
 echo "curl http://localhost/battleships/shell_index.php?new_game=1\r\n";
