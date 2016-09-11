@@ -39,7 +39,7 @@ if (!$isLoadedGame || (isset($_GET['new_game']) && (int) $_GET['new_game']) || !
 } else if (isset($_POST['coord'])) {
 	$game = new controller\HitPositionsController();
 	$game->addAHit();
-	if (strval(trim($_POST['coord'])) === 'ch3At') {
+	if (strval(trim($_POST['coord'])) === 'show') {
 		$game->loadShipsSchema();
 	} else if (!$game->setHitPosition($_POST['coord'])) {
 		$game->loadHitsSchema('*** Error ***');
