@@ -8,18 +8,16 @@ namespace model\ships;
 use model\Ship;
 
 /**
- * @model Destroyer extends abstract class Ship
+ * @model Ship4 extends abstract class Ship
+ * The only thing which is not changed in a ship is its length (size).
  * @author Hristo Hristov
  */
-class Destroyer extends Ship {
+class Ship4 extends Ship {
 
-	public function __construct($name = '') {
+	public function __construct($type, $name = '') {
+		$this->type = strval(trim($type));
 		$this->name = strtoupper(trim($name));
 		parent::__construct();
-	}
-	
-	protected function getShipType() {
-		return 'Destroyer';
 	}
 	
 	protected function getShipSize() {
