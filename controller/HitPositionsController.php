@@ -43,21 +43,10 @@ class HitPositionsController implements HitPositionsInterface {
 	}
 
 	public function hitAPosition() {
-		$hitPos = $this->hitPosition;
-		if (!$hitPos['axisX'] || !$hitPos['axisY']) {
+		if (!$this->bField->hitAPosition($this->hitPosition)) {
 			$this->loadHitsSchema('*** Miss ***');
 			return false;
 		}
-		$shipMatrix = $this->bField->getShipMatrix();
-		$hitMatrix = $this->bField->getHitMatrix();
-		if ($shipMatrix[$hitPos['axisX']][$hitPos['axisY']] === constant(self::BF . '::SHIP_MATRIX_DEPLOYED')) {
-			$hitMatrix[$hitPos['axisX']][$hitPos['axisY']] = constant(self::BF . '::HIT_MATRIX_HIT');
-			$this->hitPosition['hit'] = 1;
-		} else {
-			$hitMatrix[$hitPos['axisX']][$hitPos['axisY']] = constant(self::BF . '::HIT_MATRIX_MISS');
-			$this->hitPosition['hit'] = 0;
-		}
-		$this->bField->setHitMatrix($hitMatrix);
 		$this->setBattleFieldToSession();
 		global $session;
 		$session['gameSuccess'] = $this->bField->areAllShipsHit();

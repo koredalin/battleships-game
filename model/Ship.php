@@ -30,6 +30,10 @@ abstract class Ship {
 		$this->size = $this->getShipSize();
 	}
 
+	/**
+	 * The only thing which is not changed in a ship is its length (size).
+	 * Set in Ship constructor.
+	 */
 	abstract protected function getShipSize();
 
 	/**
