@@ -30,24 +30,24 @@ interface BattleFieldInterface {
     /**
 	 * Indicates if the new hit position is a valid BattleField position.
      * @params (string) $axisX (1 char), (int) $axisY - coordinates.
-     * @returns 0 or 1.
+     * @return 0 or 1.
      */
 	public function isValidHitPosition($axisX, $axisY);
 	
     /**
 	 * Indicates if all BattleField ships are hit.
      * @param No Params.
-     * @returns 0 or 1.
+     * @return 0 or 1.
      */
 	public function areAllShipsHit();
 
     /**
-     * @returns $this->shipMatrix
+     * @return $this->shipMatrix
      */
 	public function getShipMatrix();
 
     /**
-     * @returns $this->hitMatrix
+     * @return $this->hitMatrix
      */
 	public function getHitMatrix();
 
@@ -62,5 +62,13 @@ interface BattleFieldInterface {
 	 * @throws an exception if the new matrix is not suported.
      */
 	public function setHitMatrix(Array $matrix);
+	
+	/**
+	 * Hit a position from $this->hitMatrix.
+	 * @return false on invalid $hitPos (position).
+     * @sets a $this->hitMatrix cell with self::HIT_MATRIX_HIT or self::HIT_MATRIX_MISS.
+	 * @sets the parameter &$hitPos by reference.
+     */
+	public function hitAPosition(Array &$hitPos);
 	
 }

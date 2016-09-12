@@ -68,7 +68,7 @@ namespace view;
 				</div>
 			</form>
 		</div>
-		<p class="game_row">See all ships positions - set coordinate: "ch3At".</p>
+		<p class="game_row">See all ships positions - set coordinate: "show".</p>
 		<p class="game_row"><a href="index.php?new_game=1">Start a New Game</a></p>
 	</body>
 </html>

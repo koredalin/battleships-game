@@ -18,8 +18,6 @@ $isLoadedGame = isset($session['ships']) && is_array($session['ships']) && count
 if (!$isLoadedGame || (isset($_GET['new_game']) && (int) $_GET['new_game'])) {
 	session_destroy();
 	session_start();
-	$session['gameSuccess'] = 0;
-	$session['hitsCount'] = 0;
 	$game = new controller\ShipPositionsController();
 	$game->setShipPositions();
 } else if (isset($_POST['coord'])) {
@@ -39,5 +37,7 @@ if (!$isLoadedGame || (isset($_GET['new_game']) && (int) $_GET['new_game'])) {
 }
 
 if (isset($session) && is_array($session) && count($session) > 0) {
+	$session['gameSuccess'] = \model\GameStatus::$gameSuccess;
+	$session['hitsCount'] = \model\GameStatus::$hitsCount;
 	$_SESSION['session'] = serialize($session);
 }

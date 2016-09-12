@@ -97,8 +97,8 @@ class BattleField implements BattleFieldInterface {
 		return 1;
 	}
 
-	public function hitAPosition(&$hitPos) {
-		if (!$hitPos['axisX'] || !$hitPos['axisY']) {
+	public function hitAPosition(Array &$hitPos) {
+		if (!isset($hitPos['axisX']) || !isset($hitPos['axisY']) || !$hitPos['axisX'] || !$hitPos['axisY']) {
 			return false;
 		}
 		if ($this->shipMatrix[$hitPos['axisX']][$hitPos['axisY']] === self::SHIP_MATRIX_DEPLOYED) {
@@ -108,6 +108,8 @@ class BattleField implements BattleFieldInterface {
 			$this->hitMatrix[$hitPos['axisX']][$hitPos['axisY']] = self::HIT_MATRIX_MISS;
 			$hitPos['hit'] = 0;
 		}
+		
+		return true;
 	}
 
 	public function getShipMatrix() {

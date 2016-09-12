@@ -13,7 +13,7 @@ namespace controller;
  */
 use \model\BattleField as BF;
 
-class ShipPositionsController implements ShipPositionsInterface {
+class ShipPositionsController {
 
 	/**
 	 * @class "\model\BattleField"
@@ -31,6 +31,8 @@ class ShipPositionsController implements ShipPositionsInterface {
 
 	public function __construct() {
 		$this->bField = BF::getInstance();
+		\model\GameStatus::$gameSuccess = 0;
+		\model\GameStatus::$hitsCount = 0;
 	}
 
 	public function setShipPositions() {
@@ -66,9 +68,24 @@ class ShipPositionsController implements ShipPositionsInterface {
 	private function loadView() {
 		$t = new \vendor\ViewRender();
 		$t->printMatrix = $this->bField->getHitMatrix();
-		global $interface;
-		$tpl = ($interface === 'web') ? 'GameTpl.php' : 'ShellGameTpl.php';
+		$tpl = $this->getTemplate();
 		$t->render($tpl);
+	}
+	
+	/**
+	 * Returns game template.
+	 * @return string
+	 */
+	protected function getTemplate() {
+		global $interface;
+		if ($interface === 'web') {
+			return 'GameTpl.php';
+		}
+		if ($interface === 'shell_commands') {
+			return 'ShellCommandsGameTpl.php';
+		}
+		
+		return 'ShellGameTpl.php';
 	}
 
 }
