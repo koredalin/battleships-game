@@ -33,6 +33,8 @@ abstract class Ship {
 	/**
 	 * The only thing which is not changed in a ship is its length (size).
 	 * Set in Ship constructor.
+	 * The successors are obligate to set their size (length).
+	 * There is no option for changing their size.
 	 */
 	abstract protected function getShipSize();
 

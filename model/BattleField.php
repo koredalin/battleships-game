@@ -138,7 +138,7 @@ class BattleField implements BattleFieldInterface {
 
 	/**
 	 * Creates an array. Fills it with default parameter.
-	 * @param type $defSymbol.
+	 * @param $defSymbol. Type (string).
 	 * @return array "empty matrix".
 	 */
 	private function emptyMatrix($defSymbol) {
