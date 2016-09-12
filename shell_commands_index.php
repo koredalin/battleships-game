@@ -8,9 +8,9 @@ include_once 'vendor' . DIRECTORY_SEPARATOR . 'AutoLoader.php';
 
 /**
  * GET Request
- * curl http://localhost/battleships/shell_index.php?new_game=1
+ * curl http://localhost/battleships/shell_commands_index.php?new_game=1
  * POST Request
- * curl --data "coord=h4" http://localhost/battleships/shell_index.php
+ * curl --data "coord=h4" http://localhost/battleships/shell_commands_index.php
  */
 $interface = 'shell_commands';
 define("FILE_NAME", 'shell_serialization/battleships_commands.txt');
