@@ -30,9 +30,14 @@ class ShipPositionsController {
 	private $ships = array();
 
 	public function __construct() {
-		$this->bField = BF::getInstance();
 		\model\GameStatus::$gameSuccess = 0;
 		\model\GameStatus::$hitsCount = 0;
+		global $interface;
+		/**
+		 * The shell don't destroys the static variables.
+		 */
+		($interface === 'shell') ? BF::destroy() : false;
+		$this->bField = BF::getInstance();
 	}
 
 	public function setShipPositions() {

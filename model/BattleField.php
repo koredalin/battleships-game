@@ -43,6 +43,10 @@ class BattleField implements BattleFieldInterface {
 		$this->shipMatrix = $this->emptyMatrix(self::SHIP_MATRIX_BLANK);
 		$this->hitMatrix = $this->emptyMatrix(self::HIT_MATRIX_NO_SHOT);
 	}
+	
+	public static function destroy() {
+		self::$instance = NULL;
+	}
 
 	/**
 	 * Validates the row index <1-10>.

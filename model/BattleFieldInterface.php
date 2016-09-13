@@ -18,6 +18,11 @@ interface BattleFieldInterface {
 	 * Pattern Singleton.
 	 */
 	public static function getInstance();
+	
+	/**
+	 * Destroys the BattleField instance.
+	 */
+	public static function destroy();
 
     /**
      * Returns a letter indicating axisX key.

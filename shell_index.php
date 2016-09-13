@@ -9,9 +9,9 @@ include_once 'vendor' . DIRECTORY_SEPARATOR . 'AutoLoader.php';
 $interface = 'shell';
 define("FILE_NAME", 'shell_serialization/battleships.txt');
 
+$line = 'new';
+
 do {
-	fwrite(STDOUT, "Enter coordinates (row, col), e.g. A5: ");
-	$line = strval(trim(fgets(STDIN)));
 
 	$session = array();
 	if (file_exists(FILE_NAME)) {
@@ -19,7 +19,7 @@ do {
 	}
 	$isLoadedGame = is_array($session) && isset($session['ships']) && is_array($session['ships']) && count($session['ships']) > 0 && isset($session['BattleField']) && is_object($session['BattleField']);
 
-	if (!$isLoadedGame || ($line === 'new')) {
+	if (!$isLoadedGame || $line === 'new') {
 		$session = array();
 		$game = new controller\ShipPositionsController();
 		$game->setShipPositions();
@@ -44,6 +44,10 @@ do {
 		$session['hitsCount'] = \model\GameStatus::$hitsCount;
 		file_put_contents(FILE_NAME, serialize($session));
 	}
+	unset($game);
+	unset($session);
 	
+	fwrite(STDOUT, "Enter coordinates (row, col), e.g. B7: ");
+	$line = strval(trim(fgets(STDIN)));
 	
 } while ($line !== 'exit');
