@@ -5,9 +5,13 @@
         <group>
             <file>file:/C:/xampp/htdocs/battleships/model/Ship.php</file>
             <file>file:/C:/xampp/htdocs/battleships/view/ShellGameTpl.php</file>
-            <file>file:/C:/xampp/htdocs/battleships/model/BattleFieldInterface.php</file>
+            <file>file:/C:/xampp/htdocs/battleships/model/GameStatus.php</file>
+            <file>file:/C:/xampp/htdocs/battleships/controller/HitPositionsController.php</file>
+            <file>file:/C:/xampp/htdocs/battleships/controller/GameController.php</file>
+            <file>file:/C:/xampp/htdocs/battleships/model/ships/Ship5Positions.php</file>
             <file>file:/C:/xampp/htdocs/battleships/controller/ShipPositionsController.php</file>
             <file>file:/C:/xampp/htdocs/battleships/shell_index.php</file>
+            <file>file:/C:/xampp/htdocs/battleships/model/ships/Ship4Positions.php</file>
             <file>file:/C:/xampp/htdocs/battleships/model/BattleField.php</file>
         </group>
     </open-files>

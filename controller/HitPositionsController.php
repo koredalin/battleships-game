@@ -25,6 +25,7 @@ class HitPositionsController extends GameController {
 		$this->bField = $session['BattleField'];
 		GameStatus::$gameSuccess = (isset($session['gameSuccess'])) ? (int) $session['gameSuccess'] : 0;
 		GameStatus::$hitsCount = (isset($session['hitsCount'])) ? (int) $session['hitsCount'] : 0;
+		parent::__construct();
 	}
 
 	/**
@@ -84,23 +85,6 @@ class HitPositionsController extends GameController {
 	public function loadShipsSchema() {
 		$t = new \vendor\ViewRender();
 		$t->printMatrix = $this->bField->getShipMatrix();
-		$tpl = $this->getTemplate();
-		$t->render($tpl);
-	}
-
-	/**
-	 * @loads Hits Schema in the view.
-	 * @creates $t - a view object.
-	 * @sets $t->printMatrix
-			$t->gameSuccess
-			$t->hitsCount.
-	 */
-	public function loadHitsSchema($status = '') {
-		$t = new \vendor\ViewRender();
-		($status) ? $t->status = strval(trim($status)) : false;
-		$t->printMatrix = $this->bField->getHitMatrix();
-		$t->gameSuccess = (int) GameStatus::$gameSuccess;
-		$t->hitsCount = (int) GameStatus::$hitsCount;
 		$tpl = $this->getTemplate();
 		$t->render($tpl);
 	}

@@ -17,6 +17,7 @@ class ShipPositionsController extends GameController {
 		\model\GameStatus::$gameSuccess = 0;
 		\model\GameStatus::$hitsCount = 0;
 		$this->bField = new \model\BattleField();
+		parent::__construct();
 	}
 
 	public function setShipPositions() {
@@ -28,7 +29,7 @@ class ShipPositionsController extends GameController {
 		foreach ($ships as $key => $ship) {
 			$className = $modelNameSpace . 'Ship' . $ship['size'] . 'Positions';
 			if (!class_exists($className)) {
-				throw new \Exception('No Ship with such Size ' . $ship['size'] . '.');
+				throw new \Exception('No Ship with such Size ' . $ship['size'] . ' positions.');
 			}
 			$this->ships[$key] = new $className($ship['type'], $ship['name']);
 			$this->ships[$key]->setShipPosition($shipMat, $ship['size']);
@@ -36,14 +37,7 @@ class ShipPositionsController extends GameController {
 		$this->bField->setShipMatrix($shipMat);
 		$this->setAllShipsToSession();
 		$this->setBattleFieldToSession();
-		$this->loadView();
-	}
-
-	private function loadView() {
-		$t = new \vendor\ViewRender();
-		$t->printMatrix = $this->bField->getHitMatrix();
-		$tpl = $this->getTemplate();
-		$t->render($tpl);
+		$this->loadHitsSchema();
 	}
 
 }

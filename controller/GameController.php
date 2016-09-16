@@ -8,6 +8,8 @@
 
 namespace controller;
 
+use model\GameStatus;
+
 /**
  * Description of Controller
  *
@@ -51,6 +53,25 @@ class GameController {
 	protected function setBattleFieldToSession() {
 		global $session;
 		$session['BattleField'] = $this->bField;
+	}
+
+	/**
+	 * @loads Hits Schema in the view.
+	 * @creates $t - a view object.
+	 * @sets $t->printMatrix
+	  $t->gameSuccess
+	  $t->hitsCount.
+	 */
+	public function loadHitsSchema($status = '') {
+		$t = new \vendor\ViewRender();
+		($status) ? $t->status = strval(trim($status)) : false;
+		$t->printMatrix = $this->bField->getHitMatrix();
+		if ((int) GameStatus::$gameSuccess) {
+			$t->gameSuccess = (int) GameStatus::$gameSuccess;
+			$t->hitsCount = (int) GameStatus::$hitsCount;
+		}
+		$tpl = $this->getTemplate();
+		$t->render($tpl);
 	}
 	
 }

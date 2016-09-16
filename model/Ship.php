@@ -75,7 +75,6 @@ class Ship {
 				$randPos = $this->getShipRandomPosition($shipSize);
 				if (!is_array($randPos) || empty($randPos)) {
 					throw new \Exception('No random position set for ship with Size ' . $shipSize . '.');
-					return false;
 				}
 				$axisX = $randPos['axisX'];
 				$axisY = $randPos['axisY'];
