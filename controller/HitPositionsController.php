@@ -6,22 +6,15 @@
 
 namespace controller;
 
-use \model\GameStatus as GS;
+use \model\GameStatus;
 
 /**
  * @controller HitPositionsController
  *
  * @author Hristo Hristov
  */
-class HitPositionsController {
+class HitPositionsController extends GameController {
 
-	/**
-	 * @class "\model\BattleField"
-	 * alias and object
-	 */
-	const BF = '\model\BattleField';
-
-	private $bField = null;
 	private $hitPosition = array('axisX' => '', 'axisY' => 0, 'hit' => 0);
 
 	public function __construct() {
@@ -30,8 +23,8 @@ class HitPositionsController {
 			throw new Exception('No BattleField Object Loaded in the Session.');
 		}
 		$this->bField = $session['BattleField'];
-		GS::$gameSuccess = (isset($session['gameSuccess'])) ? (int) $session['gameSuccess'] : 0;
-		GS::$hitsCount = (isset($session['hitsCount'])) ? (int) $session['hitsCount'] : 0;
+		GameStatus::$gameSuccess = (isset($session['gameSuccess'])) ? (int) $session['gameSuccess'] : 0;
+		GameStatus::$hitsCount = (isset($session['hitsCount'])) ? (int) $session['hitsCount'] : 0;
 	}
 
 	/**
@@ -61,7 +54,7 @@ class HitPositionsController {
 			return false;
 		}
 		$this->setBattleFieldToSession();
-		GS::$gameSuccess = $this->bField->areAllShipsHit();
+		GameStatus::$gameSuccess = $this->bField->areAllShipsHit();
 		if ($this->hitPosition['hit']) {
 			$this->loadHitsSchema('*** Sunk ***');
 		} else {
@@ -76,11 +69,11 @@ class HitPositionsController {
 	 * @stops counting after all ships are hit.
 	 */
 	public function addAHit() {
-		if (!isset(GS::$hitsCount)) {
-			GS::$hitsCount = 0;
+		if (!isset(GameStatus::$hitsCount)) {
+			GameStatus::$hitsCount = 0;
 		}
-		if (!(int) GS::$gameSuccess) {
-			GS::$hitsCount++;
+		if (!(int) GameStatus::$gameSuccess) {
+			GameStatus::$hitsCount++;
 		}
 	}
 
@@ -106,31 +99,10 @@ class HitPositionsController {
 		$t = new \vendor\ViewRender();
 		($status) ? $t->status = strval(trim($status)) : false;
 		$t->printMatrix = $this->bField->getHitMatrix();
-		$t->gameSuccess = (int) GS::$gameSuccess;
-		$t->hitsCount = (int) GS::$hitsCount;
+		$t->gameSuccess = (int) GameStatus::$gameSuccess;
+		$t->hitsCount = (int) GameStatus::$hitsCount;
 		$tpl = $this->getTemplate();
 		$t->render($tpl);
-	}
-	
-	/**
-	 * Returns game template.
-	 * @return string
-	 */
-	protected function getTemplate() {
-		global $interface;
-		if ($interface === 'web') {
-			return 'GameTpl.php';
-		}
-		if ($interface === 'shell_commands') {
-			return 'ShellCommandsGameTpl.php';
-		}
-		
-		return 'ShellGameTpl.php';
-	}
-
-	private function setBattleFieldToSession() {
-		global $session;
-		$session['BattleField'] = $this->bField;
 	}
 
 }

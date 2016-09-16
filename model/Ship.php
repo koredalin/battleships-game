@@ -6,12 +6,12 @@
 
 namespace model;
 
-use \model\BattleField as BF;
+use \model\BattleField;
 /**
  * @model Ship - abstract class
  * @author Hristo Hristov
  */
-abstract class Ship {
+class Ship {
 
 	const MAX_ITERATIONS_PER_SHIP_POS_SET = 40;
 
@@ -19,7 +19,7 @@ abstract class Ship {
 	 * @class "\model\BattleField"
 	 * alias and object
 	 */
-	const BF = '\model\BattleField';
+	const BattleField = '\model\BattleField';
 
 	protected $type = '';
 	protected $size = 0;
@@ -27,16 +27,8 @@ abstract class Ship {
 	protected $position = array();
 
 	protected function __construct() {
-		$this->size = $this->getShipSize();
+		
 	}
-
-	/**
-	 * The only thing which is not changed in a ship is its length (size).
-	 * Set in Ship constructor.
-	 * The successors are obligate to set their size (length).
-	 * There is no option for changing their size.
-	 */
-	abstract protected function getShipSize();
 
 	/**
 	 * Magic method __get()
@@ -70,9 +62,9 @@ abstract class Ship {
 		return $propValue;
 	}
 
-	public function setShipPosition(Array &$shipMat, $shipIndex, $shipSize) {
+	public function setShipPosition(Array &$shipMat, $shipSize) {
 		$shipSize = (int) $shipSize;
-		if ($shipSize <= 0 || $shipSize > constant(self::BF . '::MATRIX_ROWS_NUM') || $shipSize > constant(self::BF . '::MATRIX_COLS_NUM')) {
+		if ($shipSize <= 0 || $shipSize > constant(self::BattleField . '::MATRIX_ROWS_NUM') || $shipSize > constant(self::BattleField . '::MATRIX_COLS_NUM')) {
 			return false;
 		}
 		$freePositionsNum = 0;
@@ -89,7 +81,7 @@ abstract class Ship {
 				$axisY = $randPos['axisY'];
 			}
 
-			if ($shipMat[$axisX][$axisY] === constant(self::BF . '::SHIP_MATRIX_DEPLOYED')) {
+			if ($shipMat[$axisX][$axisY] === constant(self::BattleField . '::SHIP_MATRIX_DEPLOYED')) {
 				$freePositionsNum = 0;
 				$freePositions = array();
 			} else {
@@ -103,7 +95,7 @@ abstract class Ship {
 		if ($shipSize == count($freePositions)) {
 			$this->position = $freePositions;
 			foreach ($freePositions as $pos) {
-				$shipMat[$pos['axisX']][$pos['axisY']] = constant(self::BF . '::SHIP_MATRIX_DEPLOYED');
+				$shipMat[$pos['axisX']][$pos['axisY']] = constant(self::BattleField . '::SHIP_MATRIX_DEPLOYED');
 			}
 		} else {
 			throw new \Exception('Ship with size ' . $shipSize . ' is not positioned.');
@@ -118,13 +110,13 @@ abstract class Ship {
 		// Random 2 - Vertical Axis
 		$axisType = rand(1, 2);
 		if ($axisType == 1) {
-			$axisXNum = rand(1, constant(self::BF . '::MATRIX_ROWS_NUM'));
-			$axisX = BF::getRowIndex($axisXNum);
-			$axisY = rand(1, (constant(self::BF . '::MATRIX_COLS_NUM') - $shipSize + 1));
+			$axisXNum = rand(1, constant(self::BattleField . '::MATRIX_ROWS_NUM'));
+			$axisX = BattleField::getRowIndex($axisXNum);
+			$axisY = rand(1, (constant(self::BattleField . '::MATRIX_COLS_NUM') - $shipSize + 1));
 		} else {
-			$axisY = rand(1, constant(self::BF . '::MATRIX_COLS_NUM'));
-			$axisXNum = rand(1, (constant(self::BF . '::MATRIX_ROWS_NUM') - $shipSize + 1));
-			$axisX = BF::getRowIndex($axisXNum);
+			$axisY = rand(1, constant(self::BattleField . '::MATRIX_COLS_NUM'));
+			$axisXNum = rand(1, (constant(self::BattleField . '::MATRIX_ROWS_NUM') - $shipSize + 1));
+			$axisX = BattleField::getRowIndex($axisXNum);
 		}
 
 		return array('axisType' => $axisType, 'axisX' => $axisX, 'axisY' => $axisY);

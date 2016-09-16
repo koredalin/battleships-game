@@ -11,9 +11,7 @@ namespace model;
  *
  * OOP Principle. All the validations are in the Model.
  */
-class BattleField implements BattleFieldInterface {
-
-	private static $instance = NULL;
+class BattleField {
 
 	const MATRIX_ROWS_NUM = 10;
 	const MATRIX_COLS_NUM = 10;
@@ -26,26 +24,9 @@ class BattleField implements BattleFieldInterface {
 	private $shipMatrix = array();
 	private $hitMatrix = array();
 
-	/**
-	 * The BattleField is only one.
-	 * So we can make only 1 instance of it.
-	 * Pattern Singleton.
-	 */
-	public static function getInstance() {
-		if (!isset(self::$instance)) {
-			self::$instance = new BattleField();
-		}
-
-		return self::$instance;
-	}
-
-	private function __construct() {
+	public function __construct() {
 		$this->shipMatrix = $this->emptyMatrix(self::SHIP_MATRIX_BLANK);
 		$this->hitMatrix = $this->emptyMatrix(self::HIT_MATRIX_NO_SHOT);
-	}
-	
-	public static function destroy() {
-		self::$instance = NULL;
 	}
 
 	/**
