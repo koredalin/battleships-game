@@ -123,15 +123,15 @@ class BattleField {
 
 	/**
 	 * Creates an array. Fills it with default parameter.
-	 * @param $defSymbol. Type (string).
+	 * @param (string) $defSymbol - 1 character.
 	 * @return array "empty matrix".
 	 */
 	private function emptyMatrix($defSymbol) {
 		$mat = array();
 		$lastNote = $this->getRowIndex(self::MATRIX_ROWS_NUM);
-		for ($ii = 'A'; $ii <= $lastNote; $ii++) {
-			for ($jj = 1; $jj <= self::MATRIX_COLS_NUM; $jj++) {
-				$mat[$ii][$jj] = $defSymbol;
+		for ($row = 'A'; $row <= $lastNote; $row++) {
+			for ($column = 1; $column <= self::MATRIX_COLS_NUM; $column++) {
+				$mat[$row][$column] = $defSymbol;
 			}
 		}
 
